@@ -1,0 +1,4 @@
+import type { Response } from 'express';
+import { prisma } from '../config/database.js';
+import { requestUserId, type AuthenticatedRequest } from '../types/index.js';
+export async function stats(req: AuthenticatedRequest, res: Response) { const ownerId = requestUserId(req); const [scheduled, sent, failed] = await Promise.all([prisma.email.count({ where: { status: 'SCHEDULED', campaign: { userId: ownerId } } }), prisma.email.count({ where: { status: 'SENT', campaign: { userId: ownerId } } }), prisma.email.count({ where: { status: 'FAILED', campaign: { userId: ownerId } } })]); res.json({ success: true, stats: { scheduled, sent, failed } }); }

@@ -1,0 +1,2 @@
+import { emailSchema } from './email-validator.js';
+export const extractEmails = (text: string): string[] => [...new Set((text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) ?? []).filter((value) => emailSchema.safeParse(value).success).map((value) => value.toLowerCase()))];

@@ -1,0 +1,1 @@
+export const logger = { info: (event: string, data?: unknown) => console.log(JSON.stringify({ level: 'info', event, data, at: new Date().toISOString() })), error: (event: string, error?: unknown) => console.error(JSON.stringify({ level: 'error', event, error: error instanceof Error ? error.message : error, at: new Date().toISOString() })) };

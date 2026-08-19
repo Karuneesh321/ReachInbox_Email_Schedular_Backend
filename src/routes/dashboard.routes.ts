@@ -1,0 +1,2 @@
+import { Router } from 'express'; import { stats } from '../controllers/dashboard.controller.js'; import { requireAuth } from '../middleware/auth.middleware.js';
+export const dashboardRouter = Router(); dashboardRouter.use(requireAuth); dashboardRouter.get('/stats', stats);

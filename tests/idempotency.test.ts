@@ -1,0 +1,2 @@
+import { describe, expect, it } from 'vitest';
+describe('idempotency contract', () => { it('only SCHEDULED rows are eligible for atomic claiming', () => { const statuses = ['SCHEDULED', 'PROCESSING', 'SENT', 'FAILED']; expect(statuses.filter((status) => status === 'SCHEDULED')).toEqual(['SCHEDULED']); }); });

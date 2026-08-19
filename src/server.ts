@@ -1,0 +1,2 @@
+import { app } from './app.js'; import { env } from './config/env.js'; import './queue/email.worker.js'; import { recoverScheduledEmails } from './services/scheduler.service.js'; import { logger } from './utils/logger.js';
+app.listen(env.PORT, () => { logger.info('server-started', { port: env.PORT }); void recoverScheduledEmails().catch((error) => logger.error('scheduled-job-recovery-failed', error)); });

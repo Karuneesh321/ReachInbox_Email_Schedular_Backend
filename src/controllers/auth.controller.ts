@@ -1,0 +1,6 @@
+import type { Request, Response } from 'express';
+import { prisma } from '../config/database.js';
+import { env } from '../config/env.js';
+export async function currentUser(req: Request, res: Response) { if (!req.session?.userId) return res.status(401).json({ success: false, message: 'Authentication required' }); const user = await prisma.user.findUnique({ where: { id: req.session.userId }, select: { id: true, name: true, email: true, avatar: true } }); if (!user) return res.status(401).json({ success: false, message: 'Authentication required' }); res.json({ success: true, user }); }
+export function logout(req: Request, res: Response) { req.session = null; res.clearCookie('session'); res.json({ success: true }); }
+export async function googleCallback(req: Request, res: Response) { const profile = req.user; if (!profile) return res.redirect(`${env.FRONTEND_URL}/login?error=authentication`); const user = await prisma.user.upsert({ where: { googleId: profile.id }, update: { name: profile.name, email: profile.email, avatar: profile.avatar }, create: { googleId: profile.id, name: profile.name, email: profile.email, avatar: profile.avatar } }); req.session = { userId: user.id }; res.redirect(env.FRONTEND_URL); }

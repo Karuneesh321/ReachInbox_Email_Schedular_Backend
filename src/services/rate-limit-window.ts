@@ -1,0 +1,1 @@
+export function nextHourWindow(now: Date): Date { const next = new Date(now); next.setUTCMinutes(0, 0, 0); next.setUTCHours(next.getUTCHours() + 1); return next; }
