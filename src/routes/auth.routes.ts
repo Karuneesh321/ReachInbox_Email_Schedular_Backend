@@ -8,4 +8,4 @@ authRouter.get('/google', (req, res, next) => {
 	if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return res.status(503).json({ success: false, message: 'Google OAuth is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to backend/.env.' });
 	return passport.authenticate('google', { scope: ['profile', 'email'], session: false })(req, res, next);
 });
-authRouter.get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/login?error=authentication' }), googleCallback);
+authRouter.get('/google/callback', passport.authenticate('google', { session: false, failureRedirect: `${env.FRONTEND_URL}/login?error=authentication` }), googleCallback);
